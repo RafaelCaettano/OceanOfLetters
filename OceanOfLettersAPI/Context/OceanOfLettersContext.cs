@@ -19,6 +19,7 @@ namespace OceanOfLettersAPI.Context
         }
 
         public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Author> Author { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -80,6 +81,55 @@ namespace OceanOfLettersAPI.Context
                 entity.Property(e => e.BrandId)
                     .HasColumnName("brand_id")
                     .HasColumnType("int(11)");
+
+            });
+
+            modelBuilder.Entity<Author>(entity =>
+            {
+
+                entity.ToTable("authors");
+
+                entity.HasIndex(e => e.CountryId)
+                    .HasName("country_id");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.ActivityPeriod)
+                    .HasColumnName("activity_period")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Biography)
+                    .HasColumnName("biography")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.Birth)
+                    .HasColumnName("birth")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.CountryId)
+                    .HasColumnName("country_id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Death)
+                    .HasColumnName("death")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Nationality)
+                    .IsRequired()
+                    .HasColumnName("nationality")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Occupation)
+                    .IsRequired()
+                    .HasColumnName("occupation")
+                    .HasColumnType("varchar(100)");
 
             });
 
