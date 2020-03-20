@@ -1,10 +1,17 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace OceanOfLettersAPI.Models
 {
 
     public class Country
     {
+
+        public Country()
+        {
+            Books = new HashSet<Book>();
+            Authors = new HashSet<Author>();
+        }
 
         #region Properties
 
@@ -16,6 +23,19 @@ namespace OceanOfLettersAPI.Models
 
         [JsonProperty("language_id")]
         public int? LanguageId { get; set; }
+
+        #endregion
+
+        #region Navigation Properties
+
+        [JsonProperty("books")]
+        public ICollection<Book> Books { get; set; }
+
+        [JsonProperty("authors")]
+        public ICollection<Author> Authors { get; set; }
+
+        [JsonProperty("language")]
+        public Language Language { get; set; }
 
         #endregion
 
