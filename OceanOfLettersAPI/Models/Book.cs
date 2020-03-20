@@ -1,11 +1,16 @@
 ﻿using Newtonsoft.Json;
+using OceanOfLettersAPI.Models.Relationships;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OceanOfLettersAPI.Models
 {
 
     public class Book
     {
+
+
 
         #region Properties
 
@@ -44,6 +49,39 @@ namespace OceanOfLettersAPI.Models
 
         [JsonProperty("series_id")]
         public int? SeriesId { get; set; }
+
+        #endregion
+
+        #region Navigation Properties
+
+        [JsonProperty("authors_books")]
+        public ICollection<AuthorsBook> AuthorsBook { get; set; }
+
+        [JsonProperty("genres_books")]
+        public ICollection<GenresBook> GenresBooks { get; set; }
+
+        [JsonProperty("authors")]
+        [NotMapped]
+        public ICollection<Author> Authors { get; set; }
+
+        [JsonProperty("genres")]
+        [NotMapped]
+        public ICollection<Genre> Genres { get; set; }
+
+        [JsonProperty("series")]
+        public Series Series { get; set; }
+
+        [JsonProperty("language")]
+        public Language Language { get; set; }
+
+        [JsonProperty("country")]
+        public Country Country { get; set; }
+
+        [JsonProperty("publishing_company")]
+        public PublishingCompany PublishingCompany { get; set; }
+
+        [JsonProperty("brand")]
+        public Brand Brand { get; set; }
 
         #endregion
 
