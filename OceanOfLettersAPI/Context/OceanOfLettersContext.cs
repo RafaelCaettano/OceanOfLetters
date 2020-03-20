@@ -176,10 +176,32 @@ namespace OceanOfLettersAPI.Context
 
             });
 
+            modelBuilder.Entity<Genre>(entity =>
+            {
+
+                entity.ToTable("genres");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnName("description")
+                    .HasColumnType("text");
+
+            });
 
         }
 
         public DbSet<OceanOfLettersAPI.Models.Country> Country { get; set; }
+
+        public DbSet<OceanOfLettersAPI.Models.Genre> Genre { get; set; }
 
     }
 
