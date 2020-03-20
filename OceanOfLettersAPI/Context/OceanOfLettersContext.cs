@@ -23,6 +23,7 @@ namespace OceanOfLettersAPI.Context
         public DbSet<Brand> Brand { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<Genre> Genre { get; set; }
+        public DbSet<Language> Language { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -215,9 +216,45 @@ namespace OceanOfLettersAPI.Context
 
             });
 
+            modelBuilder.Entity<PublishingCompany>(entity =>
+            {
+
+                entity.ToTable("publishing_company");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Foundation)
+                    .IsRequired()
+                    .HasColumnName("foundation")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Founders)
+                    .IsRequired()
+                    .HasColumnName("founders")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Headquarters)
+                    .IsRequired()
+                    .HasColumnName("headquaters")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Website)
+                    .IsRequired()
+                    .HasColumnName("website")
+                    .HasColumnType("varchar(100)");
+
+            });
+
         }
 
-        public DbSet<OceanOfLettersAPI.Models.Language> Language { get; set; }
+        public DbSet<OceanOfLettersAPI.Models.PublishingCompany> PublishingCompany { get; set; }
 
     }
 
