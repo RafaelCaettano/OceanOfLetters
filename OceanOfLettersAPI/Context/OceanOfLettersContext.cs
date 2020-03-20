@@ -24,6 +24,8 @@ namespace OceanOfLettersAPI.Context
         public DbSet<Country> Country { get; set; }
         public DbSet<Genre> Genre { get; set; }
         public DbSet<Language> Language { get; set; }
+        public DbSet<PublishingCompany> PublishingCompany { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -252,9 +254,32 @@ namespace OceanOfLettersAPI.Context
 
             });
 
+            modelBuilder.Entity<Series>(entity =>
+            {
+
+                entity.ToTable("series");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Synopsis)
+                    .IsRequired()
+                    .HasColumnName("synopsis")
+                    .HasColumnType("text");
+
+            });
+
         }
 
-        public DbSet<OceanOfLettersAPI.Models.PublishingCompany> PublishingCompany { get; set; }
+
+        public DbSet<OceanOfLettersAPI.Models.Series> Series { get; set; }
+
 
     }
 
