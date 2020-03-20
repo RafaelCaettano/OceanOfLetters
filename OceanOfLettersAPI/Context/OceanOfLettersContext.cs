@@ -133,7 +133,30 @@ namespace OceanOfLettersAPI.Context
 
             });
 
+            modelBuilder.Entity<Brand>(entity =>
+            {
+
+                entity.ToTable("brands");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.PublishingCompanyId)
+                    .IsRequired()
+                    .HasColumnName("publishing_company_id")
+                    .HasColumnType("int(11)");
+
+            });
+
         }
+
+        public DbSet<OceanOfLettersAPI.Models.Brand> Brand { get; set; }
 
     }
 
