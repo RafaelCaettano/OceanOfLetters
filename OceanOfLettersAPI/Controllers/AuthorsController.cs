@@ -55,7 +55,7 @@ namespace OceanOfLettersAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AuthorExists(id))
+                if (!AuthorExists(_context, id))
                 {
                     return NotFound();
                 }
