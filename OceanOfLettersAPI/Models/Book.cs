@@ -10,7 +10,13 @@ namespace OceanOfLettersAPI.Models
     public class Book
     {
 
-
+        public Book()
+        {
+            AuthorsBook = new HashSet<AuthorsBook>();
+            GenresBooks = new HashSet<GenresBook>();
+            Authors = new List<Author>();
+            Genres = new List<Genre>();
+        }
 
         #region Properties
 
