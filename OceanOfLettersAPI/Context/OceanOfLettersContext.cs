@@ -28,7 +28,7 @@ namespace OceanOfLettersAPI.Context
         public DbSet<Genre> Genre { get; set; }
         public DbSet<GenresBook> GenresBook { get; set; }
         public DbSet<Language> Language { get; set; }
-        public DbSet<Country> Countriy { get; set; }
+        public DbSet<Country> Country { get; set; }
         public DbSet<PublishingCompany> PublishingCompany { get; set; }
         public DbSet<Brand> Brand { get; set; }
         public DbSet<PublishingCompaniesAuthor> PublishingCompaniesAuthor { get; set; }
