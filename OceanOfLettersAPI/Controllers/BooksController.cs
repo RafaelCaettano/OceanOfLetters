@@ -19,14 +19,14 @@ namespace OceanOfLettersAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Book>>> GetBooks([FromServices] OceanOfLettersContext _context)
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Book.ToListAsync();
         }
 
         // GET: api/Books/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Book>> GetBook([FromServices] OceanOfLettersContext _context, int id)
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Book.FindAsync(id);
 
             if (book == null)
             {
@@ -74,7 +74,7 @@ namespace OceanOfLettersAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook([FromServices] OceanOfLettersContext _context, Book book)
         {
-            _context.Books.Add(book);
+            _context.Book.Add(book);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBook", new { id = book.Id }, book);
@@ -84,13 +84,13 @@ namespace OceanOfLettersAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Book>> DeleteBook([FromServices] OceanOfLettersContext _context, int id)
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Book.FindAsync(id);
             if (book == null)
             {
                 return NotFound();
             }
 
-            _context.Books.Remove(book);
+            _context.Book.Remove(book);
             await _context.SaveChangesAsync();
 
             return book;
@@ -98,7 +98,7 @@ namespace OceanOfLettersAPI.Controllers
 
         private bool BookExists(OceanOfLettersContext _context, int id)
         {
-            return _context.Books.Any(e => e.Id == id);
+            return _context.Book.Any(e => e.Id == id);
         }
     }
 }

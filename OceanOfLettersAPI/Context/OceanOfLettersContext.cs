@@ -19,23 +19,23 @@ namespace OceanOfLettersAPI.Context
         {
         }
 
-        public DbSet<Author> Authors { get; set; }
+        public DbSet<Author> Author { get; set; }
         public DbSet<AuthorsBook> AuthorsBook { get; set; }
         public DbSet<AuthorsSeries> AuthorsSeries { get; set; }
-        public DbSet<GenresAuthor> GenresAuthors { get; set; }
-        public DbSet<Book> Books { get; set; }
+        public DbSet<GenresAuthor> GenresAuthor { get; set; }
+        public DbSet<Book> Book { get; set; }
         public DbSet<Series> Series { get; set; }
-        public DbSet<Genre> Genres { get; set; }
-        public DbSet<GenresBook> GenresBooks { get; set; }
-        public DbSet<Language> Languages { get; set; }
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<PublishingCompany> PublishingCompanies { get; set; }
-        public DbSet<Brand> Brands { get; set; }
-        public DbSet<PublishingCompaniesAuthor> PublishingCompaniesAuthors { get; set; }
-        public DbSet<GenresPublishingCompany> GenresPublishingCompanies { get; set; }
+        public DbSet<Genre> Genre { get; set; }
+        public DbSet<GenresBook> GenresBook { get; set; }
+        public DbSet<Language> Language { get; set; }
+        public DbSet<Country> Countriy { get; set; }
+        public DbSet<PublishingCompany> PublishingCompany { get; set; }
+        public DbSet<Brand> Brand { get; set; }
+        public DbSet<PublishingCompaniesAuthor> PublishingCompaniesAuthor { get; set; }
+        public DbSet<GenresPublishingCompany> GenresPublishingCompany { get; set; }
         public DbSet<PublishingCompaniesSeries> PublishingCompaniesSeries { get; set; }
-        public DbSet<BrandsAuthor> BrandsAuthors { get; set; }
-        public DbSet<GenresBrand> GenresBrands { get; set; }
+        public DbSet<BrandsAuthor> BrandsAuthor { get; set; }
+        public DbSet<GenresBrand> GenresBrand { get; set; }
         public DbSet<BrandsSeries> BrandsSeries { get; set; }
         public DbSet<GenresSeries> GenresSeries { get; set; }
 
