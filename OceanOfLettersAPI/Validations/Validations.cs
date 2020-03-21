@@ -73,6 +73,104 @@ namespace OceanOfLettersAPI.Validations
 
         }
 
+        public Response Validate(Book book)
+        {
+
+            IsValid = true;
+            Response response = new Response();
+
+            try
+            {
+
+                if (book.Name == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o nome do Livro!";
+                    IsValid = false;
+                }
+
+                if (book.Launch == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira a data de lançamento do livro!";
+                    IsValid = false;
+                }
+
+                if (book.Pages == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o número de páginas do livro";
+                    IsValid = false;
+                }
+
+                if (book.Synopsis == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira a sinopse do livro!";
+                    IsValid = false;
+                }
+
+                if (book.Format == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o formato do livro!";
+                    IsValid = false;
+                }
+
+                if (book.Isbn == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o ISBN do livro";
+                    IsValid = false;
+                }
+
+                if (book.LanguageId == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o idioma do livro!";
+                    IsValid = false;
+                }
+
+                if (book.CountryId == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o país de origem do livro!";
+                    IsValid = false;
+                }
+
+                if (book.PublishingCompanyId == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira a editora do livro!";
+                    IsValid = false;
+                }
+
+                if (book.AuthorsBook.Count == 0)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o(a) autor(a) do livro!";
+                    IsValid = false;
+                }
+
+                if (book.GenresBooks.Count == 0)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o gênero do livro!";
+                    IsValid = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+                IsValid = false;
+            }
+
+            return response;
+
+        }
+
     }
 
 }
