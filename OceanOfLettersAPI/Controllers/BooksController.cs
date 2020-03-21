@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OceanOfLettersAPI.Applications;
 using OceanOfLettersAPI.Context;
 using OceanOfLettersAPI.Models;
+using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
 {
@@ -74,10 +76,92 @@ namespace OceanOfLettersAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Book>> PostBook([FromServices] OceanOfLettersContext _context, Book book)
         {
-            _context.Book.Add(book);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBook", new { id = book.Id }, book);
+            Response response = new Response();
+            Validations.Validations validation = new Validations.Validations();
+
+            try
+            {
+
+                response = validation.Validate(book);
+
+                if (validation.IsValid)
+                {
+
+                    //foreach (AuthorsBook authorBook in book.AuthorsBook)
+                    //{
+                    //    if (!new AuthorApplication(_context).ExistAuthorById(authorBook.AuthorId))
+                    //    {
+                    //        repost.Message = "Autor não cadastrado!";
+                    //        return BadRequest(repost);
+                    //    }
+                    //}
+
+                    //if (!new PublishingCompanyApplication(_context).ExistPublishingCompany(book.PublishingCompanyId))
+                    //{
+                    //    repost.Message = "Editora não cadastrada!";
+                    //    return BadRequest(repost);
+                    //}
+
+                    //if (book.SeriesId != null)
+                    //{
+                    //    if (!new SeriesApplication(_context).ExistSeries(book.SeriesId))
+                    //    {
+                    //        repost.Message = "Série não cadastrada!";
+                    //        return BadRequest(repost);
+                    //    }
+                    //}
+
+                    //if (book.BrandId != null)
+                    //{
+                    //    if (!new BrandApplication(_context).ExistBrand(book.BrandId))
+                    //    {
+                    //        repost.Message = "Marca de editora não cadastrada!";
+                    //        return BadRequest(repost);
+                    //    }
+                    //}
+
+                    //if (!new CountryApplication(_context).ExistCountry(book.CountryId))
+                    //{
+                    //    repost.Message = "País não cadastrado!";
+                    //    return BadRequest(repost);
+                    //}
+
+                    //if (new LanguageApplication(_context).ExistLanguage(book.LanguageId) == false)
+                    //{
+                    //    repost.Message = "Idioma não cadastrado!";
+                    //    return BadRequest(repost);
+                    //}
+
+                    //foreach (GenresBook genresBook in book.GenresBooks)
+                    //{
+                    //    if (!new GenreApplication(_context).ExistGenre(genresBook.GenreId))
+                    //    {
+                    //        repost.Message = "Gênero não cadastrado!";
+                    //        return BadRequest(repost);
+                    //    }
+                    //}
+
+                    response = await new BooksApplication(_context).Store(book);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return CreatedAtAction("GetBook", new { id = book.Id }, response);
+
+            //_context.Book.Add(book);
+            //await _context.SaveChangesAsync();
+
+            //return CreatedAtAction("GetBook", new { id = book.Id }, book);
         }
 
         // DELETE: api/Books/5
