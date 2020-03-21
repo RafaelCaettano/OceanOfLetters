@@ -31,6 +31,9 @@ namespace OceanOfLettersAPI.Utilities
         public string Message { get; set; }
 
         [JsonIgnore]
+        public string BadRequest { get; set; }
+
+        [JsonIgnore]
         public bool SerializeMessage { get; set; } 
 
         #endregion
