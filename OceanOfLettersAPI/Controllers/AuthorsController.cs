@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OceanOfLettersAPI.Applications;
 using OceanOfLettersAPI.Context;
 using OceanOfLettersAPI.Models;
+using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
 {
@@ -68,16 +70,42 @@ namespace OceanOfLettersAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Authors
+        // POST: Authors
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Author>> PostAuthor([FromServices] OceanOfLettersContext _context, Author author)
+        public async Task<ActionResult<Author>> Store([FromServices] OceanOfLettersContext _context, Author author)
         {
-            _context.Author.Add(author);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAuthor", new { id = author.Id }, author);
+            Response response = new Response();
+            Validations.Validations validation = new Validations.Validations();
+
+            try
+            {
+
+                response = validation.Validate(author);
+
+                if (validation.IsValid)
+                {
+                    response = await new AuthorsApplication(_context).Store(author);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return CreatedAtAction("GetAuthor", new { id = author.Id }, author);
+
+            //_context.Author.Add(author);
+            //await _context.SaveChangesAsync();
+
+                //return CreatedAtAction("GetAuthor", new { id = author.Id }, author);
         }
 
         // DELETE: api/Authors/5
