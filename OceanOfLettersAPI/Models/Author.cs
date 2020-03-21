@@ -99,6 +99,22 @@ namespace OceanOfLettersAPI.Models
 
         #endregion
 
+        #region Serialize Methods
+
+        public bool ShouldSerializeBooks() { return Books.Count > 0; }
+        public bool ShouldSerializeSeries() { return Series.Count > 0; }
+        public bool ShouldSerializeGenres() { return Genres.Count > 0; }
+        public bool ShouldSerializeCountry() { return Country != null; }
+        public bool ShouldSerializeBrands() { return Brands.Count > 0; }
+        public bool ShouldSerializePublishingCompanies() { return PublishingCompanies.Count > 0; }
+        public bool ShouldSerializeAuthorsBooks() { return false; }
+        public bool ShouldSerializeAuthorsSeries() { return false; }
+        public bool ShouldSerializeGenresAuthors() { return false; }
+        public bool ShouldSerializeBrandsAuthors() { return false; }
+        public bool ShouldSerializePublishingCompaniesAuthors() { return false; } 
+
+        #endregion
+
     }
 
 }
