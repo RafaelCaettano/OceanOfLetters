@@ -23,6 +23,8 @@ namespace OceanOfLettersAPI.Utilities
             PublishingCompanies = new List<PublishingCompany>();
             Series = new List<Series>();
 
+            SerializeMessage = true;
+
         }
 
         #region Properties

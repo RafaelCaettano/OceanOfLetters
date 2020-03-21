@@ -71,8 +71,6 @@ namespace OceanOfLettersAPI.Controllers
         }
 
         // POST: Authors
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<Author>> Store([FromServices] OceanOfLettersContext _context, Author author)
         {
@@ -100,12 +98,8 @@ namespace OceanOfLettersAPI.Controllers
             if (response.BadRequest)
                 return BadRequest(response);
             else
-                return CreatedAtAction("GetAuthor", new { id = author.Id }, author);
+                return CreatedAtAction("GetAuthor", new { id = author.Id }, response);
 
-            //_context.Author.Add(author);
-            //await _context.SaveChangesAsync();
-
-                //return CreatedAtAction("GetAuthor", new { id = author.Id }, author);
         }
 
         // DELETE: api/Authors/5
