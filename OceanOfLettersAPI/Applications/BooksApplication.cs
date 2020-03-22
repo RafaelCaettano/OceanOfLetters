@@ -158,18 +158,21 @@ namespace OceanOfLettersAPI.Applications
 
                     }
 
-                    var wherePublishingCompaniesSeries = Context.PublishingCompaniesSeries.Where(x => x.SeriesId == book.SeriesId && x.PublishingCompanyId == book.PublishingCompanyId).ToList();
-                    PublishingCompaniesSeries publishingCompaniesSeriesExist = wherePublishingCompaniesSeries.FirstOrDefault();
-
-                    if (publishingCompaniesSeriesExist == null)
+                    if (book.SeriesId != null)
                     {
-                        PublishingCompaniesSeries publishingCompaniesSeries = new PublishingCompaniesSeries
-                        {
-                            SeriesId = book.SeriesId,
-                            PublishingCompanyId = book.PublishingCompanyId
-                        };
+                        var wherePublishingCompaniesSeries = Context.PublishingCompaniesSeries.Where(x => x.SeriesId == book.SeriesId && x.PublishingCompanyId == book.PublishingCompanyId).ToList();
+                        PublishingCompaniesSeries publishingCompaniesSeriesExist = wherePublishingCompaniesSeries.FirstOrDefault();
 
-                        Context.PublishingCompaniesSeries.Add(publishingCompaniesSeries);
+                        if (publishingCompaniesSeriesExist == null)
+                        {
+                            PublishingCompaniesSeries publishingCompaniesSeries = new PublishingCompaniesSeries
+                            {
+                                SeriesId = book.SeriesId,
+                                PublishingCompanyId = book.PublishingCompanyId
+                            };
+
+                            Context.PublishingCompaniesSeries.Add(publishingCompaniesSeries);
+                        } 
                     }
 
                     Context.Add(book);
