@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OceanOfLettersAPI.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace OceanOfLettersAPI.Applications
 
         private readonly OceanOfLettersContext Context;
 
-        public AuthorsApplication(OceanOfLettersContext context)
+        public BrandsApplication(OceanOfLettersContext context)
         {
             Context = context;
         }
