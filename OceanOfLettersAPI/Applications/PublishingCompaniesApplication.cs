@@ -19,7 +19,45 @@ namespace OceanOfLettersAPI.Applications
             Context = context;
         }
 
-        
+        public async Task<Response> Store(PublishingCompany publishingCompany)
+        {
+
+            Response response = new Response
+            {
+                PublishingCompany = publishingCompany
+            };
+
+            try
+            {
+
+                if (!PublishingCompanyExist(publishingCompany.Name))
+                {
+                    Context.Add(publishingCompany);
+                    await Context.SaveChangesAsync();
+
+                    response.Message = "Editora cadastrada com sucesso!";
+                }
+                else
+                {
+                    response.Message = "Editora já cadastrada!";
+                    response.BadRequest = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            return response;
+
+        }
+
+        private bool PublishingCompanyExist(string name)
+        {
+            return Context.PublishingCompany.Any(e => e.Name == name);
+        }
 
     }
 

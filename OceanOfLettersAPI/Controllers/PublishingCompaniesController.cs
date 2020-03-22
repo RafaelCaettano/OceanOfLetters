@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OceanOfLettersAPI.Applications;
 using OceanOfLettersAPI.Context;
 using OceanOfLettersAPI.Models;
+using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
 {
@@ -74,10 +76,36 @@ namespace OceanOfLettersAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<PublishingCompany>> PostPublishingCompany([FromServices] OceanOfLettersContext _context, PublishingCompany publishingCompany)
         {
-            _context.PublishingCompany.Add(publishingCompany);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPublishingCompany", new { id = publishingCompany.Id }, publishingCompany);
+            Response response = new Response();
+            Validations.Validations validation = new Validations.Validations();
+
+            try
+            {
+
+                response = validation.Validate(publishingCompany);
+
+                if (validation.IsValid)
+                {
+                    response = await new PublishingCompaniesApplication(_context).Store(publishingCompany);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return CreatedAtAction("GetPublishingCompany", new { id = publishingCompany.Id }, response);
+
+            //_context.PublishingCompany.Add(publishingCompany);
+            //await _context.SaveChangesAsync();
+
+            //return CreatedAtAction("GetPublishingCompany", new { id = publishingCompany.Id }, publishingCompany);
         }
 
         // DELETE: api/PublishingCompanies/5
