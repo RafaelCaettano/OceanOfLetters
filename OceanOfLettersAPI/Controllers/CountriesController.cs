@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OceanOfLettersAPI.Applications;
 using OceanOfLettersAPI.Context;
 using OceanOfLettersAPI.Models;
+using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
 {
@@ -72,12 +74,38 @@ namespace OceanOfLettersAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Country>> PostCountry([FromServices] OceanOfLettersContext _context, Country country)
+        public async Task<ActionResult<Country>> Store([FromServices] OceanOfLettersContext _context, Country country)
         {
-            _context.Country.Add(country);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCountry", new { id = country.Id }, country);
+            Response response = new Response();
+            Validations.Validations validation = new Validations.Validations();
+
+            try
+            {
+
+                response = validation.Validate(country);
+
+                if (validation.IsValid)
+                {
+                    response = await new CountriesApplication(_context).Store(country);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return CreatedAtAction("GetCountry", new { id = country.Id }, response);
+
+            //_context.Country.Add(country);
+            //await _context.SaveChangesAsync();
+
+            //return CreatedAtAction("GetCountry", new { id = country.Id }, country);
         }
 
         // DELETE: api/Countries/5
