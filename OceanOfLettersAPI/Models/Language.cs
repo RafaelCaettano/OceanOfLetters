@@ -35,6 +35,13 @@ namespace OceanOfLettersAPI.Models
 
         #endregion
 
+        #region Serialize Methods
+
+        public bool ShouldSerializeBooks() { return Books.Count > 0; }
+        public bool ShouldSerializeCountries() { return Countries.Count > 0; }
+
+        #endregion
+
     }
 
 }
