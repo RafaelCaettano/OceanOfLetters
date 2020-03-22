@@ -171,6 +171,41 @@ namespace OceanOfLettersAPI.Validations
 
         }
 
+        public Response Validate(Brand brand)
+        {
+
+            IsValid = true;
+            Response response = new Response();
+
+            try
+            {
+
+                if (brand.Name == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o nome da marca de editora!";
+                    IsValid = false;
+                }
+
+                if (brand.PublishingCompanyId == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira a editora da marca de editora!";
+                    IsValid = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+                IsValid = false;
+            }
+
+            return response;
+
+        }
+
     }
 
 }
