@@ -30,7 +30,7 @@ namespace OceanOfLettersAPI.Applications
             try
             {
 
-                if (!BookExists(book.Name))
+                if (!BookExists(book.Isbn))
                 {
 
                     foreach (AuthorsBook authorsBook in book.AuthorsBook)
@@ -197,9 +197,9 @@ namespace OceanOfLettersAPI.Applications
 
         }
 
-        private bool BookExists(string name)
+        private bool BookExists(string isbn)
         {
-            return Context.Book.Any(e => e.Name == name);
+            return Context.Book.Any(e => e.Isbn == isbn);
         }
 
     }
