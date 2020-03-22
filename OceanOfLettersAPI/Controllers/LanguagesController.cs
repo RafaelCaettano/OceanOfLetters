@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OceanOfLettersAPI.Applications;
 using OceanOfLettersAPI.Context;
 using OceanOfLettersAPI.Models;
+using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
 {
@@ -72,12 +74,38 @@ namespace OceanOfLettersAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Language>> PostLanguage([FromServices] OceanOfLettersContext _context, Language language)
+        public async Task<ActionResult<Language>> Store([FromServices] OceanOfLettersContext _context, Language language)
         {
-            _context.Language.Add(language);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLanguage", new { id = language.Id }, language);
+            Response response = new Response();
+            Validations.Validations validation = new Validations.Validations();
+
+            try
+            {
+
+                response = validation.Validate(language);
+
+                if (validation.IsValid)
+                {
+                    response = await new LanguagesApplication(_context).Store(language);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return CreatedAtAction("GetLanguage", new { id = language.Id }, response);
+
+            //_context.Language.Add(language);
+            //await _context.SaveChangesAsync();
+
+            //return CreatedAtAction("GetLanguage", new { id = language.Id }, language);
         }
 
         // DELETE: api/Languages/5
