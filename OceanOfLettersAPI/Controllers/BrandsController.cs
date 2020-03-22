@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OceanOfLettersAPI.Applications;
 using OceanOfLettersAPI.Context;
 using OceanOfLettersAPI.Models;
+using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
 {
@@ -74,10 +76,36 @@ namespace OceanOfLettersAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Brand>> PostBrand([FromServices] OceanOfLettersContext _context, Brand brand)
         {
-            _context.Brand.Add(brand);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
+            Response response = new Response();
+            Validations.Validations validation = new Validations.Validations();
+
+            try
+            {
+
+                response = validation.Validate(brand);
+
+                if (validation.IsValid)
+                {
+                    response = await new BrandsApplication(_context).Store(brand);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return CreatedAtAction("GetBrand", new { id = brand.Id }, response);
+
+            //_context.Brand.Add(brand);
+            //await _context.SaveChangesAsync();
+
+            //return CreatedAtAction("GetBrand", new { id = brand.Id }, brand);
         }
 
         // DELETE: api/Brands/5
