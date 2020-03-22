@@ -304,6 +304,55 @@ namespace OceanOfLettersAPI.Validations
 
         }
 
+        public Response Validate(PublishingCompany publishingCompany)
+        {
+
+            IsValid = true;
+            Response response = new Response();
+
+            try
+            {
+
+                if (publishingCompany.Name == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o nome da editora!";
+                    IsValid = false;
+                }
+
+                if (publishingCompany.Foundation == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira a data de fundação da editora!";
+                    IsValid = false;
+                }
+
+                if (publishingCompany.Website == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o site da editora!";
+                    IsValid = false;
+                }
+
+                if (publishingCompany.Headquarters == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira a sede da editora!";
+                    IsValid = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+                IsValid = false;
+            }
+
+            return response;
+
+        }
+
     }
 
 }
