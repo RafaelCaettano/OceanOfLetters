@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OceanOfLettersAPI.Applications;
 using OceanOfLettersAPI.Context;
 using OceanOfLettersAPI.Models;
+using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
 {
@@ -72,12 +74,38 @@ namespace OceanOfLettersAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Genre>> PostGenre([FromServices] OceanOfLettersContext _context, Genre genre)
+        public async Task<ActionResult<Genre>> Store([FromServices] OceanOfLettersContext _context, Genre genre)
         {
-            _context.Genre.Add(genre);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGenre", new { id = genre.Id }, genre);
+            Response response = new Response();
+            Validations.Validations validation = new Validations.Validations();
+
+            try
+            {
+
+                response = validation.Validate(genre);
+
+                if (validation.IsValid)
+                {
+                    response = await new GenresApplication(_context).Store(genre);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return CreatedAtAction("GetGenre", new { id = genre.Id }, response);
+
+            //_context.Genre.Add(genre);
+            //await _context.SaveChangesAsync();
+
+            //return CreatedAtAction("GetGenre", new { id = genre.Id }, genre);
         }
 
         // DELETE: api/Genres/5
