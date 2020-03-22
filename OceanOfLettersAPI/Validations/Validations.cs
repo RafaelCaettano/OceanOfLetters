@@ -241,6 +241,41 @@ namespace OceanOfLettersAPI.Validations
 
         }
 
+        public Response Validate(Genre genre)
+        {
+
+            IsValid = true;
+            Response response = new Response();
+
+            try
+            {
+
+                if (genre.Name == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o nome do gênero!";
+                    IsValid = false;
+                }
+
+                if (genre.Description == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira a descrição do gênero!";
+                    IsValid = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+                IsValid = false;
+            }
+
+            return response;
+
+        }
+
     }
 
 }
