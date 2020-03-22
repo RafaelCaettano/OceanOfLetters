@@ -206,6 +206,41 @@ namespace OceanOfLettersAPI.Validations
 
         }
 
+        public Response Validate(Country country)
+        {
+
+            IsValid = true;
+            Response response = new Response();
+
+            try
+            {
+
+                if (country.Name == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o nome do país!";
+                    IsValid = false;
+                }
+
+                if (country.LanguageId == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira a lígua principal do país!";
+                    IsValid = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+                IsValid = false;
+            }
+
+            return response;
+
+        }
+
     }
 
 }
