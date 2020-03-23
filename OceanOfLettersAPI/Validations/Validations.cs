@@ -353,6 +353,41 @@ namespace OceanOfLettersAPI.Validations
 
         }
 
+        public Response Validate(Series series)
+        {
+
+            IsValid = true;
+            Response response = new Response();
+
+            try
+            {
+
+                if (series.Name == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira o nome da série de livros!";
+                    IsValid = false;
+                }
+
+                if (series.Synopsis == null)
+                {
+                    response.BadRequest = true;
+                    response.Message = "Insira a sinopse da série de livros!";
+                    IsValid = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+                IsValid = false;
+            }
+
+            return response;
+
+        }
+
     }
 
 }
