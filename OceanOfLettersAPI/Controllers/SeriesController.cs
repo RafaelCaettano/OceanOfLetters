@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OceanOfLettersAPI.Applications;
 using OceanOfLettersAPI.Context;
 using OceanOfLettersAPI.Models;
+using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
 {
@@ -74,10 +76,37 @@ namespace OceanOfLettersAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Series>> PostSeries([FromServices] OceanOfLettersContext _context, Series series)
         {
-            _context.Series.Add(series);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetSeries", new { id = series.Id }, series);
+            Response response = new Response();
+            Validations.Validations validation = new Validations.Validations();
+
+            try
+            {
+
+                response = validation.Validate(series);
+
+                if (validation.IsValid)
+                {
+                    response = await new SeriesApplication(_context).Store(series);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return CreatedAtAction("GetSeries", new { id = series.Id }, response);
+
+
+            //_context.Series.Add(series);
+            //await _context.SaveChangesAsync();
+
+            //return CreatedAtAction("GetSeries", new { id = series.Id }, series);
         }
 
         // DELETE: api/Series/5
