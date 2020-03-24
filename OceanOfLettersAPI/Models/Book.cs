@@ -13,7 +13,7 @@ namespace OceanOfLettersAPI.Models
 
         public Book()
         {
-            AuthorsBook = new HashSet<AuthorsBook>();
+            AuthorsBooks = new HashSet<AuthorsBook>();
             GenresBooks = new HashSet<GenresBook>();
             Authors = new List<Author>();
             Genres = new List<Genre>();
@@ -62,7 +62,7 @@ namespace OceanOfLettersAPI.Models
         #region Navigation Properties
 
         [JsonProperty("authors_books")]
-        public ICollection<AuthorsBook> AuthorsBook { get; set; }
+        public ICollection<AuthorsBook> AuthorsBooks { get; set; }
 
         [JsonProperty("genres_books")]
         public ICollection<GenresBook> GenresBooks { get; set; }
@@ -94,7 +94,7 @@ namespace OceanOfLettersAPI.Models
 
         #region Serialize Methods
 
-        public bool ShouldSerializeAuthorsBook() { return false; }
+        public bool ShouldSerializeAuthorsBooks() { return false; }
         public bool ShouldSerializeGenresBooks() { return false; }
         public bool ShouldSerializeAuthors() { return Authors.Count > 0; }
         public bool ShouldSerializeSeries() { return Series != null; }
