@@ -265,7 +265,7 @@ namespace OceanOfLettersAPI.Context
                     .HasConstraintName("authors_book_ibfk_1");
 
                 entity.HasOne(d => d.Book)
-                    .WithMany(p => p.AuthorsBook)
+                    .WithMany(p => p.AuthorsBooks)
                     .HasForeignKey(d => d.BookId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("authors_book_ibfk_2");

@@ -145,7 +145,7 @@ namespace OceanOfLettersAPI.Validations
                     IsValid = false;
                 }
 
-                if (book.AuthorsBook.Count == 0)
+                if (book.AuthorsBooks.Count == 0)
                 {
                     response.BadRequest = true;
                     response.Message = "Insira o(a) autor(a) do livro!";
