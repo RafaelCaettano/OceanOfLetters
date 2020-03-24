@@ -14,15 +14,6 @@ namespace OceanOfLettersAPI.Utilities
         public Response()
         {
 
-            Authors = new List<Author>();
-            Books = new List<Book>();
-            Brands = new List<Brand>();
-            Countries = new List<Country>();
-            Genres = new List<Genre>();
-            Languages = new List<Language>();
-            PublishingCompanies = new List<PublishingCompany>();
-            Series = new List<Series>();
-
             SerializeMessage = true;
 
         }
