@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OceanOfLettersAPI.Applications;
+using OceanOfLettersAPI.Collections;
 using OceanOfLettersAPI.Context;
 using OceanOfLettersAPI.Models;
+using OceanOfLettersAPI.Models.Relationships;
 using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
@@ -19,9 +21,28 @@ namespace OceanOfLettersAPI.Controllers
 
         // GET: api/Authors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Author>>> GetAuthor([FromServices] OceanOfLettersContext _context)
+        public async Task<ActionResult<List<Author>>> Index([FromServices] OceanOfLettersContext _context, [FromQuery]bool series, [FromQuery]bool books, [FromQuery]bool genres, [FromQuery]bool publishing_companies, [FromQuery]bool country, [FromQuery]bool brands, [FromQuery]int authors)
         {
-            return await _context.Author.ToListAsync();
+
+            Response response = new Response();
+
+            try
+            {
+
+                response = await new AuthorsApplication(_context).Index(series, books, genres, publishing_companies, country, brands, authors);
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return Ok(response.Authors);
+
         }
 
         // GET: api/Authors/5

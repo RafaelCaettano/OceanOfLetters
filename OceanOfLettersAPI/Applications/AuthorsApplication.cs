@@ -1,6 +1,8 @@
-﻿using OceanOfLettersAPI.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using OceanOfLettersAPI.Context;
 using OceanOfLettersAPI.Models;
 using OceanOfLettersAPI.Utilities;
+using OceanOfLettersAPI.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +46,124 @@ namespace OceanOfLettersAPI.Applications
                     response.Message = "Autor já cadastrado!";
                     response.BadRequest = true;
                 }
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            return response;
+
+        }
+
+        public async Task<Response> Index(bool series, bool books, bool genres, bool publishingCompanies, bool country, bool brands, int numAuthors)
+        {
+
+            Response response = new Response();
+            Authors<Author> authors = new Authors<Author>();
+
+            try
+            {
+
+                if (numAuthors == 0)
+                {
+
+                    authors.Incorporate(
+                        await Context.Author.OrderBy(x => x.Name)
+                                            .ToListAsync()
+                    );
+
+                }
+                else
+                {
+
+                    authors.Incorporate(
+                        await Context.Author.OrderBy(x => x.Name)
+                                            .Take(numAuthors)
+                                            .ToListAsync()
+                    );
+
+                }
+
+
+                if (series)
+                {
+
+                    authors.Union(
+                        await Context.Author.Include(x => x.AuthorsSeries)
+                                                .ThenInclude(y => y.Series)
+                                            .ToListAsync()
+                    );
+
+                    authors.Series();
+
+                }
+
+                if (books)
+                {
+
+                    authors.Union(
+                        await Context.Author.Include(x => x.AuthorsBooks)
+                                                .ThenInclude(y => y.Book)
+                                            .ToListAsync()
+                    );
+
+                    authors.Books();
+
+                }
+
+                if (genres)
+                {
+
+                    authors.Union(
+                        await Context.Author.Include(x => x.GenresAuthors)
+                                                .ThenInclude(y => y.Genre)
+                                            .ToListAsync()
+                    );
+
+                    authors.Genres();
+
+                }
+
+                if (publishingCompanies)
+                {
+
+                    authors.Union(
+                        await Context.Author.Include(x => x.PublishingCompaniesAuthors)
+                                                .ThenInclude(y => y.PublishingCompany)
+                                            .ToListAsync()
+                    );
+
+                    authors.PublishingCompanies();
+
+                }
+
+                if (brands)
+                {
+
+                    authors.Union(
+                        await Context.Author.Include(x => x.BrandsAuthors)
+                                                .ThenInclude(y => y.Brand)
+                                            .ToListAsync()
+                    );
+
+                    authors.Brands();
+
+                }
+
+                if (country)
+                {
+
+                    authors.Union(
+                        await Context.Author.Include(x => x.Country)
+                                            .ToListAsync()
+                    );
+
+                }
+
+                response.Authors = authors;
 
             }
             catch (Exception ex)
