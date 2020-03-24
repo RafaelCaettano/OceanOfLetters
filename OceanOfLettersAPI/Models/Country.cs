@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace OceanOfLettersAPI.Models
 {
 
+    [JsonObject(IsReference = true)]
     public class Country
     {
 
