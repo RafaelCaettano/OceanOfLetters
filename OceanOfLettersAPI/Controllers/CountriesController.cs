@@ -89,6 +89,10 @@ namespace OceanOfLettersAPI.Controllers
                 {
                     response = await new CountriesApplication(_context).Store(country);
                 }
+                else
+                {
+                    response.BadRequest = true;
+                }
 
             }
             catch (Exception ex)

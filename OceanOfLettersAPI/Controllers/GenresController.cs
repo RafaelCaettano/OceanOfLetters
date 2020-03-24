@@ -89,6 +89,10 @@ namespace OceanOfLettersAPI.Controllers
                 {
                     response = await new GenresApplication(_context).Store(genre);
                 }
+                else
+                {
+                    response.BadRequest = true;
+                }
 
             }
             catch (Exception ex)

@@ -74,7 +74,7 @@ namespace OceanOfLettersAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Brand>> PostBrand([FromServices] OceanOfLettersContext _context, Brand brand)
+        public async Task<ActionResult<Brand>> Store([FromServices] OceanOfLettersContext _context, Brand brand)
         {
 
             Response response = new Response();
@@ -88,6 +88,10 @@ namespace OceanOfLettersAPI.Controllers
                 if (validation.IsValid)
                 {
                     response = await new BrandsApplication(_context).Store(brand);
+                }
+                else
+                {
+                    response.BadRequest = true;
                 }
 
             }

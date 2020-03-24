@@ -108,6 +108,10 @@ namespace OceanOfLettersAPI.Controllers
                 {
                     response = await new AuthorsApplication(_context).Store(author);
                 }
+                else
+                {
+                    response.BadRequest = true;
+                }
 
             }
             catch (Exception ex)

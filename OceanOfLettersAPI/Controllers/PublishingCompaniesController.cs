@@ -74,7 +74,7 @@ namespace OceanOfLettersAPI.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<PublishingCompany>> PostPublishingCompany([FromServices] OceanOfLettersContext _context, PublishingCompany publishingCompany)
+        public async Task<ActionResult<PublishingCompany>> Store([FromServices] OceanOfLettersContext _context, PublishingCompany publishingCompany)
         {
 
             Response response = new Response();
@@ -88,6 +88,10 @@ namespace OceanOfLettersAPI.Controllers
                 if (validation.IsValid)
                 {
                     response = await new PublishingCompaniesApplication(_context).Store(publishingCompany);
+                }
+                else
+                {
+                    response.BadRequest = true;
                 }
 
             }
