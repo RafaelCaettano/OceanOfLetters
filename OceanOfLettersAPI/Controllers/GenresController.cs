@@ -19,9 +19,28 @@ namespace OceanOfLettersAPI.Controllers
 
         // GET: api/Genres
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Genre>>> GetGenre([FromServices] OceanOfLettersContext _context)
+        public async Task<ActionResult<List<Author>>> Index([FromServices] OceanOfLettersContext _context, [FromQuery]bool books, [FromQuery]bool authors, [FromQuery]bool publishing_companies, [FromQuery]bool series, [FromQuery]bool brands, [FromQuery]int genres)
         {
-            return await _context.Genre.ToListAsync();
+
+            Response response = new Response();
+
+            try
+            {
+
+                response = await new GenresApplication(_context).Index(books, authors, publishing_companies, series, brands, genres);
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return Ok(response.Genres);
+
         }
 
         // GET: api/Genres/5
