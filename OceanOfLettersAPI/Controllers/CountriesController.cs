@@ -19,9 +19,28 @@ namespace OceanOfLettersAPI.Controllers
 
         // GET: api/Countries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Country>>> GetCountry([FromServices] OceanOfLettersContext _context)
+        public async Task<ActionResult<List<Brand>>> Index([FromServices] OceanOfLettersContext _context, [FromQuery]bool language, [FromQuery]bool books, [FromQuery]bool authors, [FromQuery]int countries)
         {
-            return await _context.Country.ToListAsync();
+
+            Response response = new Response();
+
+            try
+            {
+
+                response = await new CountriesApplication(_context).Index(language, books, authors, countries);
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return Ok(response.Countries);
+
         }
 
         // GET: api/Countries/5
