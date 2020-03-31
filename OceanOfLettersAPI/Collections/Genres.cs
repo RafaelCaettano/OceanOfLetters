@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace OceanOfLettersAPI.Collections
 {
 
-    public class Genres : List<Genre>
+    public class Genres<T> : List<Genre>
     {
 
         public void Incorporate(List<Genre> genres)
