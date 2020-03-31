@@ -19,7 +19,7 @@ namespace OceanOfLettersAPI.Controllers
 
         // GET: api/Genres
         [HttpGet]
-        public async Task<ActionResult<List<Author>>> Index([FromServices] OceanOfLettersContext _context, [FromQuery]bool books, [FromQuery]bool authors, [FromQuery]bool publishing_companies, [FromQuery]bool series, [FromQuery]bool brands, [FromQuery]int genres)
+        public async Task<ActionResult<List<Genre>>> Index([FromServices] OceanOfLettersContext _context, [FromQuery]bool books, [FromQuery]bool authors, [FromQuery]bool publishing_companies, [FromQuery]bool series, [FromQuery]bool brands, [FromQuery]int genres)
         {
 
             Response response = new Response();
