@@ -12,16 +12,35 @@ using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
 {
-    [Route("[controller]")]
+    [Route("[publishing_companies]")]
     [ApiController]
     public class PublishingCompaniesController : ControllerBase
     {
 
         // GET: api/PublishingCompanies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PublishingCompany>>> GetPublishingCompany([FromServices] OceanOfLettersContext _context)
+        public async Task<ActionResult<List<PublishingCompany>>> Index([FromServices] OceanOfLettersContext _context, [FromQuery]bool brands, [FromQuery]bool books, [FromQuery]bool authors, [FromQuery]bool genres, [FromQuery]bool series, [FromQuery]int publishing_companies)
         {
-            return await _context.PublishingCompany.ToListAsync();
+
+            Response response = new Response();
+
+            try
+            {
+
+                response = await new PublishingCompaniesApplication(_context).Index(brands, books, authors, genres, series, publishing_companies);
+
+            }
+            catch (Exception ex)
+            {
+                response.Message = ex.Message;
+                response.BadRequest = true;
+            }
+
+            if (response.BadRequest)
+                return BadRequest(response);
+            else
+                return Ok(response.PublishingCompanies);
+
         }
 
         // GET: api/PublishingCompanies/5
