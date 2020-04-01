@@ -12,7 +12,7 @@ using OceanOfLettersAPI.Utilities;
 
 namespace OceanOfLettersAPI.Controllers
 {
-    [Route("[publishing_companies]")]
+    [Route("publishing_companies")]
     [ApiController]
     public class PublishingCompaniesController : ControllerBase
     {
