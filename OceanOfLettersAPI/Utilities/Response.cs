@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using OceanOfLettersAPI.Collections;
 using OceanOfLettersAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,14 @@ namespace OceanOfLettersAPI.Utilities
         {
 
             SerializeMessage = true;
+            Authors = new Authors<Author>();
+            Brands = new Brands<Brand>();
+            Books = new Books<Book>();
+            Countries = new Countries<Country>();
+            Genres = new Genres<Genre>();
+            Languages = new Languages<Language>();
+            PublishingCompanies = new PublishingCompanies<PublishingCompany>();
+            Series = new Serie<Series>();
 
         }
 

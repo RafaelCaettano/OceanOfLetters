@@ -41,7 +41,7 @@ namespace OceanOfLettersAPI.Controllers
             if (response.BadRequest)
                 return BadRequest(response);
             else
-                return Ok(response.Authors);
+                return Ok(response);
 
         }
 

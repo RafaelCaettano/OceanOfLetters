@@ -39,7 +39,7 @@ namespace OceanOfLettersAPI.Controllers
             if (response.BadRequest)
                 return BadRequest(response);
             else
-                return Ok(response.Brands);
+                return Ok(response);
 
         }
 
