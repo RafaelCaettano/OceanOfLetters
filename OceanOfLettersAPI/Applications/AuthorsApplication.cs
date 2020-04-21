@@ -72,6 +72,7 @@ namespace OceanOfLettersAPI.Applications
 
                     authors.Incorporate(
                         await Context.Author.OrderBy(x => x.Name)
+                                            .Include(x => x.Avatar)
                                             .ToListAsync()
                     );
 
@@ -81,6 +82,7 @@ namespace OceanOfLettersAPI.Applications
 
                     authors.Incorporate(
                         await Context.Author.OrderBy(x => x.Name)
+                                            .Include(x => x.Avatar)
                                             .Take(numAuthors)
                                             .ToListAsync()
                     );
@@ -107,6 +109,7 @@ namespace OceanOfLettersAPI.Applications
                     authors.Union(
                         await Context.Author.Include(x => x.AuthorsBooks)
                                                 .ThenInclude(y => y.Book)
+                                                    .ThenInclude(y => y.Cover)
                                             .ToListAsync()
                     );
 

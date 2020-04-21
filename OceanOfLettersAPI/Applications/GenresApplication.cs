@@ -35,6 +35,7 @@ namespace OceanOfLettersAPI.Applications
 
                     genres.Incorporate(
                         await Context.Genre.OrderBy(x => x.Name)
+                                           .Include(x => x.Avatar)
                                            .ToListAsync()
                     );
 
@@ -44,6 +45,7 @@ namespace OceanOfLettersAPI.Applications
 
                     genres.Incorporate(
                         await Context.Genre.OrderBy(x => x.Name)
+                                           .Include(x => x.Avatar)
                                            .Take(numGenres)
                                            .ToListAsync()
                     );
@@ -70,6 +72,7 @@ namespace OceanOfLettersAPI.Applications
                     genres.Union(
                         await Context.Genre.Include(x => x.GenresBooks)
                                                 .ThenInclude(y => y.Book)
+                                                    .ThenInclude(y => y.Cover)
                                            .ToListAsync()
                     );
 

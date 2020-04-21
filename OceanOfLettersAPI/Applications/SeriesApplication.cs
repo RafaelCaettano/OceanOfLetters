@@ -35,6 +35,7 @@ namespace OceanOfLettersAPI.Applications
 
                     series.Incorporate(
                         await Context.Series.OrderBy(x => x.Name)
+                                            .Include(x => x.Cover)
                                             .ToListAsync()
                     );
 
@@ -44,6 +45,7 @@ namespace OceanOfLettersAPI.Applications
 
                     series.Incorporate(
                         await Context.Series.OrderBy(x => x.Name)
+                                            .Include(x => x.Cover)
                                             .Take(numSeries)
                                             .ToListAsync()
                     );
@@ -108,6 +110,7 @@ namespace OceanOfLettersAPI.Applications
 
                     series.Union(
                         await Context.Series.Include(x => x.Books)
+                                                .ThenInclude(y => y.Cover)
                                             .ToListAsync()
                     );
 

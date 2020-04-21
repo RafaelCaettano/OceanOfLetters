@@ -36,6 +36,7 @@ namespace OceanOfLettersAPI.Applications
 
                     brands.Incorporate(
                         await Context.Brand.OrderBy(x => x.Name)
+                                           .Include(x => x.Avatar)
                                            .ToListAsync()
                     );
 
@@ -45,6 +46,7 @@ namespace OceanOfLettersAPI.Applications
 
                     brands.Incorporate(
                         await Context.Brand.OrderBy(x => x.Name)
+                                           .Include(x => x.Avatar)
                                            .Take(numBrands)
                                            .ToListAsync()
                     );
@@ -106,6 +108,7 @@ namespace OceanOfLettersAPI.Applications
 
                     brands.Union(
                         await Context.Brand.Include(x => x.Books)
+                                                .ThenInclude(y => y.Cover)
                                            .ToListAsync()
                     );
 

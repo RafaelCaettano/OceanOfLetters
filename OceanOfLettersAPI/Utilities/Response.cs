@@ -82,6 +82,12 @@ namespace OceanOfLettersAPI.Utilities
         [JsonProperty("country")]
         public Country Country { get; set; }
 
+        [JsonProperty("cover")]
+        public Cover Cover { get; set; }
+
+        [JsonProperty("avatar")]
+        public Avatar Avatar { get; set; }
+
         [JsonProperty("genre")]
         public Genre Genre { get; set; }
 
@@ -116,6 +122,8 @@ namespace OceanOfLettersAPI.Utilities
         #region Serialize Objects
 
         public bool ShouldSerializeBook() { return Book != null; }
+        public bool ShouldSerializeCover() { return Cover != null; }
+        public bool ShouldSerializeAvatar() { return Avatar != null; }
         public bool ShouldSerializeAuthor() { return Author != null; }
         public bool ShouldSerializeBrand() { return Brand != null; }
         public bool ShouldSerializeCountry() { return Country != null; }

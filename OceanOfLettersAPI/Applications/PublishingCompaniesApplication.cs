@@ -35,6 +35,7 @@ namespace OceanOfLettersAPI.Applications
 
                     publishingCompanies.Incorporate(
                         await Context.PublishingCompany.OrderBy(x => x.Name)
+                                                       .Include(x => x.Avatar)
                                                        .ToListAsync()
                     );
 
@@ -45,6 +46,7 @@ namespace OceanOfLettersAPI.Applications
                     publishingCompanies.Incorporate(
                         await Context.PublishingCompany.OrderBy(x => x.Name)
                                                        .Take(numPublishingCompanies)
+                                                       .Include(x => x.Avatar)
                                                        .ToListAsync()
                     );
 
@@ -105,7 +107,8 @@ namespace OceanOfLettersAPI.Applications
 
                     publishingCompanies.Union(
                         await Context.PublishingCompany.Include(x => x.Books)
-                                           .ToListAsync()
+                                                            .ThenInclude(y => y.Cover)
+                                                       .ToListAsync()
                     );
 
                 }

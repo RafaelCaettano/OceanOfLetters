@@ -56,12 +56,18 @@ namespace OceanOfLettersAPI.Models
         [JsonProperty("country_id")]
         public int? CountryId { get; set; }
 
+        [JsonProperty("avatar_id")]
+        public int? AvatarId { get; set; }
+
         #endregion
 
         #region Navigation Properties
 
         [JsonProperty("country")]
         public Country Country { get; set; }
+
+        [JsonProperty("avatar")]
+        public Avatar Avatar { get; set; }
 
         [NotMapped]
         [JsonProperty("books")]
@@ -106,6 +112,7 @@ namespace OceanOfLettersAPI.Models
         public bool ShouldSerializeSeries() { return Series.Count > 0; }
         public bool ShouldSerializeGenres() { return Genres.Count > 0; }
         public bool ShouldSerializeCountry() { return Country != null; }
+        public bool ShouldSerializeAvatar() { return Avatar != null; }
         public bool ShouldSerializeBrands() { return Brands.Count > 0; }
         public bool ShouldSerializePublishingCompanies() { return PublishingCompanies.Count > 0; }
         public bool ShouldSerializeAuthorsBooks() { return false; }

@@ -38,7 +38,8 @@ namespace OceanOfLettersAPI.Context
         public DbSet<GenresBrand> GenresBrand { get; set; }
         public DbSet<BrandsSeries> BrandsSeries { get; set; }
         public DbSet<GenresSeries> GenresSeries { get; set; }
-
+        public DbSet<Cover> Covers { get; set; }
+        public DbSet<Avatar> Avatar { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -94,6 +95,18 @@ namespace OceanOfLettersAPI.Context
                     .HasForeignKey(d => d.CountryId)
                     .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("authors_ibfk_1");
+
+                entity.HasIndex(e => e.AvatarId)
+                    .HasName("avatar_id");
+
+                entity.Property(e => e.AvatarId)
+                    .HasColumnName("avatar_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(b => b.Avatar)
+                   .WithOne(i => i.Author)
+                   .HasForeignKey<Author>(b => b.AvatarId);
+
             });
 
             modelBuilder.Entity<BrandsAuthor>(entity =>
@@ -164,6 +177,50 @@ namespace OceanOfLettersAPI.Context
                     .HasForeignKey(d => d.BrandId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("genres_brand_ibfk_1");
+            });
+
+            modelBuilder.Entity<Cover>(entity =>
+            {
+                entity.ToTable("covers");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Path)
+                    .HasColumnName("path")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Url)
+                    .HasColumnName("url")
+                    .HasColumnType("varchar(100)");
+
+            });
+
+            modelBuilder.Entity<Avatar>(entity =>
+            {
+                entity.ToTable("avatars");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .HasColumnType("int(11)");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("name")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Path)
+                    .HasColumnName("path")
+                    .HasColumnType("varchar(100)");
+
+                entity.Property(e => e.Url)
+                    .HasColumnName("url")
+                    .HasColumnType("varchar(100)");
+
             });
 
             modelBuilder.Entity<GenresSeries>(entity =>
@@ -318,6 +375,10 @@ namespace OceanOfLettersAPI.Context
                     .HasColumnName("country_id")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.CoverId)
+                    .HasColumnName("cover_id")
+                    .HasColumnType("int(11)");
+
                 entity.Property(e => e.Format)
                     .IsRequired()
                     .HasColumnName("format")
@@ -387,6 +448,11 @@ namespace OceanOfLettersAPI.Context
                    .WithMany(p => p.Books)
                    .HasForeignKey(d => d.BrandId)
                    .HasConstraintName("books_ibfk_5");
+
+                entity.HasOne(b => b.Cover)
+                   .WithOne(i => i.Book)
+                   .HasForeignKey<Book>(b => b.CoverId);
+
             });
 
             modelBuilder.Entity<Series>(entity =>
@@ -407,6 +473,14 @@ namespace OceanOfLettersAPI.Context
                     .HasColumnName("synopsis")
                     .HasColumnType("text");
 
+                entity.Property(e => e.CoverId)
+                    .HasColumnName("cover_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(b => b.Cover)
+                   .WithOne(i => i.Series)
+                   .HasForeignKey<Series>(b => b.CoverId);
+
             });
 
             modelBuilder.Entity<Genre>(entity =>
@@ -425,7 +499,18 @@ namespace OceanOfLettersAPI.Context
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasColumnName("description")
-                    .HasColumnType("text");
+                    .HasColumnType("text"); 
+                
+                entity.HasIndex(e => e.AvatarId)
+                     .HasName("avatar_id");
+
+                entity.Property(e => e.AvatarId)
+                    .HasColumnName("avatar_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(b => b.Avatar)
+                   .WithOne(i => i.Genre)
+                   .HasForeignKey<Genre>(b => b.AvatarId);
 
             });
 
@@ -533,7 +618,18 @@ namespace OceanOfLettersAPI.Context
                 entity.Property(e => e.Website)
                     .IsRequired()
                     .HasColumnName("website")
-                    .HasColumnType("varchar(100)");
+                    .HasColumnType("varchar(100)"); 
+                
+                entity.HasIndex(e => e.AvatarId)
+                     .HasName("avatar_id");
+
+                entity.Property(e => e.AvatarId)
+                    .HasColumnName("avatar_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(b => b.Avatar)
+                   .WithOne(i => i.PublishingCompany)
+                   .HasForeignKey<PublishingCompany>(b => b.AvatarId);
 
             });
 
@@ -559,6 +655,17 @@ namespace OceanOfLettersAPI.Context
                   .WithMany(p => p.Brands)
                   .HasForeignKey(d => d.PublishingCompanyId)
                   .HasConstraintName("brands_ibfk_1");
+
+                entity.HasIndex(e => e.AvatarId)
+                     .HasName("avatar_id");
+
+                entity.Property(e => e.AvatarId)
+                    .HasColumnName("avatar_id")
+                    .HasColumnType("int(11)");
+
+                entity.HasOne(b => b.Avatar)
+                   .WithOne(i => i.Brand)
+                   .HasForeignKey<Brand>(b => b.AvatarId);
             });
 
             modelBuilder.Entity<PublishingCompaniesAuthor>(entity =>

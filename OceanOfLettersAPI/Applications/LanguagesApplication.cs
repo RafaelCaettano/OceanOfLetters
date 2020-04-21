@@ -55,6 +55,7 @@ namespace OceanOfLettersAPI.Applications
 
                     languages.Union(
                         await Context.Language.Include(x => x.Books)
+                                                    .ThenInclude(y => y.Cover)
                                               .ToListAsync()
                     );
 

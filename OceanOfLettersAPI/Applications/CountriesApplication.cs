@@ -65,6 +65,7 @@ namespace OceanOfLettersAPI.Applications
 
                     countries.Union(
                         await Context.Country.Include(x => x.Books)
+                                                .ThenInclude(y => y.Cover)
                                              .ToListAsync()
                     );
 

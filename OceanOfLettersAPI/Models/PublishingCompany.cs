@@ -45,6 +45,9 @@ namespace OceanOfLettersAPI.Models
         [JsonProperty("website")]
         public string Website { get; set; }
 
+        [JsonProperty("avatar_id")]
+        public int? AvatarId { get; set; }
+
         #endregion
 
         #region Navigation Properties
@@ -76,6 +79,9 @@ namespace OceanOfLettersAPI.Models
         [JsonProperty("brands")]
         public ICollection<Brand> Brands { get; set; }
 
+        [JsonProperty("avatar")]
+        public Avatar Avatar { get; set; }
+
         #endregion
 
         #region Serialize Methods
@@ -85,6 +91,7 @@ namespace OceanOfLettersAPI.Models
         public bool ShouldSerializeGenres() { return Genres.Count > 0; }
         public bool ShouldSerializeSeries() { return Series.Count > 0; }
         public bool ShouldSerializeBrands() { return Brands.Count > 0; }
+        public bool ShouldSerializeAvatar() { return Avatar != null; }
         public bool ShouldSerializePublishingCompaniesAuthors() { return false; }
         public bool ShouldSerializeGenresPublishingCompanies() { return false; }
         public bool ShouldSerializePublishingCompaniesSeries() { return false; }

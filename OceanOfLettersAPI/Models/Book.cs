@@ -24,6 +24,9 @@ namespace OceanOfLettersAPI.Models
         [JsonProperty("id")]
         public int Id { get; set; }
 
+        [JsonProperty("cover_id")]
+        public int CoverId { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
 
@@ -84,6 +87,9 @@ namespace OceanOfLettersAPI.Models
         [JsonProperty("country")]
         public Country Country { get; set; }
 
+        [JsonProperty("cover")]
+        public Cover Cover { get; set; }
+
         [JsonProperty("publishing_company")]
         public PublishingCompany PublishingCompany { get; set; }
 
@@ -98,6 +104,7 @@ namespace OceanOfLettersAPI.Models
         public bool ShouldSerializeGenresBooks() { return false; }
         public bool ShouldSerializeAuthors() { return Authors.Count > 0; }
         public bool ShouldSerializeSeries() { return Series != null; }
+        public bool ShouldSerializeCover() { return Cover != null; }
         public bool ShouldSerializeGenres() { return Genres.Count > 0; }
         public bool ShouldSerializeLanguage() { return Language != null; }
         public bool ShouldSerializeCountry() { return Country != null; }

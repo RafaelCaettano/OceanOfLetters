@@ -32,6 +32,9 @@ namespace OceanOfLettersAPI.Models
         [JsonProperty("publishing_company_id")]
         public int? PublishingCompanyId { get; set; }
 
+        [JsonProperty("avatar_id")]
+        public int? AvatarId { get; set; }
+
         #endregion
 
         #region Navigation Properties
@@ -63,11 +66,15 @@ namespace OceanOfLettersAPI.Models
         [JsonProperty("publishing_company")]
         public PublishingCompany PublishingCompany { get; set; }
 
+        [JsonProperty("avatar")]
+        public Avatar Avatar { get; set; }
+
         #endregion
 
         #region Serialize Methods
 
         public bool ShouldSerializePublishingCompany() { return PublishingCompany != null; }
+        public bool ShouldSerializeAvatar() { return Avatar != null; }
         public bool ShouldSerializeBooks() { return Books.Count > 0; }
         public bool ShouldSerializeAuthors() { return Authors.Count > 0; }
         public bool ShouldSerializeGenres() { return Genres.Count > 0; }
